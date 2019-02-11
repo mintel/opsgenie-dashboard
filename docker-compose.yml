@@ -1,0 +1,12 @@
+dashing:
+  image: visibilityspots/smashing
+  environment:
+    - GEMS=curb
+  volumes:
+    - ./dashboards:/dashboards
+    - ./jobs:/jobs
+    - ./assets:/assets
+    - ./widgets:/widgets
+    - ./config:/config
+  ports:
+    - "8080:3030"

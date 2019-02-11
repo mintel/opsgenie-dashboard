@@ -1,0 +1,41 @@
+// ----------------------------------------------------------------------------
+// Sass declarations
+// ----------------------------------------------------------------------------
+$none-color:  #8fb347;
+$some-color:  #ad3b0e;
+
+$title-color:       rgba(255, 255, 255, 0.7);
+$moreinfo-color:    rgba(255, 255, 255, 0.7);
+
+// ----------------------------------------------------------------------------
+// Widget-opsgenie-alerts styles
+// ----------------------------------------------------------------------------
+.widget-opsgenie-alerts {
+
+  .title {
+    color: $title-color;
+  }
+
+  .more-info {
+    color: $moreinfo-color;
+  }
+
+  .updated-at {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  &.large h3 {
+    font-size: 65px;
+  }
+
+  &.none
+  {
+    background-color: $none-color;
+  }
+
+  &.some
+  {
+    background-color: $some-color;
+  }
+
+}
