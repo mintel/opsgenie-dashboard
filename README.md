@@ -2,6 +2,11 @@
 
 A *Smashing* dashboard app. with OpsGenie integration.
 
+## TODO
+
+- Support multiple environments
+- Support on-call visibility (who is on call)
+
 ## Usage
 
 Export **OPSGENIE_APIKEY** to environment then:
