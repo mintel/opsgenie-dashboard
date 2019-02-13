@@ -9,7 +9,7 @@ Poll the on-call schedule (if defined) and display the recipients
 in a List widget
 =end
 if schedule_identifier
-  SCHEDULER.every '10s', :first_in => 0 do |job|
+  SCHEDULER.every '360s', :first_in => 0 do |job|
     on_call_response = Curl.get("https://api.opsgenie.com/v2/schedules/#{schedule_identifier}/on-calls?flat=true") do |http|
       http.headers['Authorization'] = "GenieKey #{api_key}"
     end
@@ -39,7 +39,7 @@ Poll the alerts endpoint and display the following
   - P1, P2, P3 alerts
 =end
 
-SCHEDULER.every '30s', :first_in => 0 do |job|
+SCHEDULER.every '60s', :first_in => 0 do |job|
 
   alerts_response = Curl.get("https://api.opsgenie.com/v2/alerts?query=status:open") do |http|
 	  http.headers['Authorization'] = "GenieKey #{api_key}"
