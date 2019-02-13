@@ -3,7 +3,7 @@ require 'json'
 
 api_key = ENV['OPSGENIE_APIKEY']
 
-SCHEDULER.every '5s', :first_in => 0 do |job|
+SCHEDULER.every '30s', :first_in => 0 do |job|
 
   response = Curl.get("https://api.opsgenie.com/v2/alerts?query=status:open") do |http|
 	  http.headers['Authorization'] = "GenieKey #{api_key}"
@@ -20,7 +20,6 @@ SCHEDULER.every '5s', :first_in => 0 do |job|
 
   alerts.each do |a|
     if a["isSeen"] == false
-      puts "Got "
       unseen_alerts +=1
     end
 
