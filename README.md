@@ -1,11 +1,13 @@
 ## Overview
 
-A *Smashing* dashboard app. with OpsGenie integration.
+An docker [OpsGenie](https://opsgenie.com) dashboard using [Smashing](https://smashing.github.io/).
+
+This makes of the OpsGenie Alerts and Schedules REST endpoints.
 
 ## TODO
 
-- Support multiple environments
-- Support multiple schedules (on-call + daily-triage)
+- Support multiple environments (dev/prod/staging/etc)
+- Support multiple schedules (on-call/daily-triage/etc)
 
 ## Usage
 
