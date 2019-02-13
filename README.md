@@ -5,8 +5,7 @@ A *Smashing* dashboard app. with OpsGenie integration.
 ## TODO
 
 - Support multiple environments
-- Support on-call visibility (who is on call)
-- Update colour for P3 alerts (or remove if not required)
+- Support multiple schedules (on-call + daily-triage)
 
 ## Usage
 
@@ -14,6 +13,7 @@ Create a `.env` file with the following:
 
 ```
 OPSGENIE_APIKEY=<YOUR_OPSGENIE_APIKEY>
+OPSGENIE_SCHEDULE_IDENTIFIER=<YOUR_SCHEDULE_IDENTIFIER_ID>
 GEMS=curb
 ```
 
