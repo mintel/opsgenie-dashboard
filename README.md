@@ -6,6 +6,7 @@ A *Smashing* dashboard app. with OpsGenie integration.
 
 - Support multiple environments
 - Support on-call visibility (who is on call)
+- Update colour for P3 alerts (or remove if not required)
 
 ## Usage
 
