@@ -10,7 +10,12 @@ A *Smashing* dashboard app. with OpsGenie integration.
 
 ## Usage
 
-Export **OPSGENIE_APIKEY** to environment then:
+Create a `.env` file with the following:
+
+```
+OPSGENIE_APIKEY=<YOUR_OPSGENIE_APIKEY>
+GEMS=curb
+```
 
 ```
 docker-compose up

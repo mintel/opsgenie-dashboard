@@ -1,7 +1,7 @@
 dashing:
   image: visibilityspots/smashing
-  environment:
-    - GEMS=curb
+  env_file:
+    - .env
   volumes:
     - ./dashboards:/dashboards
     - ./jobs:/jobs
