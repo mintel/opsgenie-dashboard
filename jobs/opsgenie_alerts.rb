@@ -10,18 +10,13 @@ SCHEDULER.every '30s', :first_in => 0 do |job|
   end
 
   alerts = JSON.parse(response.body)['data']
-  puts "GOT"
-  puts alerts
-
-
-  open_alerts   = 0 # alerts.count
+  
+  open_alerts   = alerts.count
   unseen_alerts = 0
   unack_alerts  = 0
   p1_alerts     = 0
   p2_alerts     = 0
   p3_alerts     = 0
-
-  puts alerts
   
   alerts.each do |a|
     if a["isSeen"] == false
@@ -43,10 +38,11 @@ SCHEDULER.every '30s', :first_in => 0 do |job|
     end
   end
 
-  send_event('opsgenie_open', text: open_alerts)
-  send_event('opsgenie_unseen', text: unseen_alerts)
-  send_event('opsgenie_unack', text: unack_alerts)
-  send_event('opsgenie_p1', text: p1_alerts)
-  send_event('opsgenie_p2', text: p2_alerts)
-  send_event('opsgenie_p3', text: p3_alerts)
+  send_event('opsgenie_open', value: open_alerts)
+  send_event('opsgenie_unseen', value: unseen_alerts)
+  send_event('opsgenie_unack', value: unack_alerts)
+  send_event('opsgenie_p1', value: p1_alerts)
+  send_event('opsgenie_p2', value: p2_alerts)
+  send_event('opsgenie_p3', value: p3_alerts)
+
 end
