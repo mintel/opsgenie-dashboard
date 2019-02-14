@@ -1,5 +1,5 @@
 dashing:
-  image: visibilityspots/smashing
+  image: mintel/smashing
   env_file:
     - .env
   volumes:
