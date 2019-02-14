@@ -1,8 +1,8 @@
 ## Overview
 
-An docker [OpsGenie](https://opsgenie.com) dashboard using [Smashing](https://smashing.github.io/).
+A dashborad for [OpsGenie](https://opsgenie.com) using [Smashing](https://smashing.github.io/).
 
-This makes use of the OpsGenie Alerts/Schedules REST endpoints.
+This makes use of the OpsGenie API for probing alerts and schedules.
 
 ## TODO
 
