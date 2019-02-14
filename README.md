@@ -1,8 +1,9 @@
 ## Overview
 
-A dashborad for [OpsGenie](https://opsgenie.com) using [Smashing](https://smashing.github.io/).
+A dashboard for [OpsGenie](https://opsgenie.com) using [Smashing](https://smashing.github.io/).
 
-This makes use of the OpsGenie API for probing alerts and schedules.
+This makes use of the OpsGenie API for probing alerts and schedules and provides live updates 
+on current alerts.
 
 ## TODO
 
