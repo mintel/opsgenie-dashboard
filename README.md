@@ -7,8 +7,11 @@ This makes use of the OpsGenie API for probing alerts and schedules and provides
 ## TODO
 
 - Support multiple environments (dev/prod/staging/etc)
+ - Currently we just derive from the API key that's used
 - Make schedule support more flexible
+  - We support 2 widgets (each points to a different schedule...should be more custom)
 - Support mappings for P1/P2/P3 (i.e. some alerts might use Critical/Warning/Info)
+  - We look for P1/P2/P3 etc, but should support others
 
 ## Usage
 
