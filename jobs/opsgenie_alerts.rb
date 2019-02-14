@@ -2,34 +2,59 @@ require 'curb'
 require 'json'
 
 api_key = ENV['OPSGENIE_APIKEY']
-schedule_identifier = ENV['OPSGENIE_SCHEDULE_IDENTIFIER']
+schedule_identifier_on_call = ENV['OPSGENIE_SCHEDULE_IDENTIFIER_ON_CALL']
+schedule_identifier_on_triage = ENV['OPSGENIE_SCHEDULE_IDENTIFIER_ON_TRIAGE']
 
 =begin
-Poll the on-call schedule (if defined) and display the recipients
-in a List widget
+Helper function to call schedule API and get recipient information
 =end
-if schedule_identifier
-  SCHEDULER.every '360s', :first_in => 0 do |job|
-    on_call_response = Curl.get("https://api.opsgenie.com/v2/schedules/#{schedule_identifier}/on-calls?flat=true") do |http|
-      http.headers['Authorization'] = "GenieKey #{api_key}"
-    end
 
-    on_call_recipients = JSON.parse(on_call_response.body)['data']['onCallRecipients']
-    
-    if on_call_recipients.length == 0 
-      send_event('opsgenie_on_call', items: [{'value': 'Not Set'}])
-    else
+def send_schedule_event(api_key, schedule_id, event_id)
+  on_call_response = Curl.get("https://api.opsgenie.com/v2/schedules/#{schedule_id}/on-calls?flat=true") do |http|
+    http.headers['Authorization'] = "GenieKey #{api_key}"
+  end
+
+  on_call_recipients = JSON.parse(on_call_response.body)['data']['onCallRecipients']
+  
+  if on_call_recipients.length == 0 
+    send_event("#{event_id}", items: [{'value': 'N/A'}])
+  else
     on_call_items = []
     on_call_recipients.each do |person| 
       item_entry = {'label': '', 'value': person}
       on_call_items.push(item_entry)
     end
-      send_event('opsgenie_on_call', items: on_call_items)
-    end 
+    send_event("#{event_id}", items: on_call_items)
+  end 
+end
+
+
+=begin
+Poll the on-call schedule (if defined) and display the recipients
+in a List widget
+=end
+
+if schedule_identifier_on_call
+  SCHEDULER.every '120s', :first_in => 0 do |job|
+    send_schedule_event(api_key, schedule_identifier_on_call, 'opsgenie_on_call') 
   end
 else
-  send_event('opsgenie_on_call', items: [{'value': 'Not Set'}])
+  send_event('opsgenie_on_call', items: [{'value': 'N/A'}])
 end
+
+=begin
+Poll the on-triage schedule (if defined) and display the recipients
+in a List widget
+=end
+
+if schedule_identifier_on_triage
+  SCHEDULER.every '120s', :first_in => 0 do |job|
+    send_schedule_event(api_key, schedule_identifier_on_triage, 'opsgenie_on_triage') 
+  end
+else
+  send_event('opsgenie_on_triage', items: [{'value': 'N/A'}])
+end
+
 
 =begin
 Poll the alerts endpoint and display the following 
@@ -63,6 +88,7 @@ SCHEDULER.every '60s', :first_in => 0 do |job|
       unack_alerts +=1
     end
 
+    # TODO: Make this mapping configurable
     if a["priority"] == "P1"
       p1_alerts +=1
     end
@@ -80,5 +106,4 @@ SCHEDULER.every '60s', :first_in => 0 do |job|
   send_event('opsgenie_p1', value: p1_alerts)
   send_event('opsgenie_p2', value: p2_alerts)
   send_event('opsgenie_p3', value: p3_alerts)
-
 end
