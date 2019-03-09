@@ -1,16 +1,19 @@
 require 'curb'
 require 'json'
 
+api_url = 'https://api.opsgenie.com/v2'
+
 api_key = ENV['OPSGENIE_APIKEY']
 schedule_identifier_on_call = ENV['OPSGENIE_SCHEDULE_IDENTIFIER_ON_CALL']
 schedule_identifier_on_triage = ENV['OPSGENIE_SCHEDULE_IDENTIFIER_ON_TRIAGE']
+search_identifier_id = ENV['OPSGENIE_SEARCH_IDENTIFIER_ID']
 
 =begin
 Helper function to call schedule API and get recipient information
 =end
 
 def send_schedule_event(api_key, schedule_id, event_id)
-  on_call_response = Curl.get("https://api.opsgenie.com/v2/schedules/#{schedule_id}/on-calls?flat=true") do |http|
+  on_call_response = Curl.get("#{api_url}/schedules/#{schedule_id}/on-calls?flat=true") do |http|
     http.headers['Authorization'] = "GenieKey #{api_key}"
   end
 
@@ -66,39 +69,48 @@ Poll the alerts endpoint and display the following
 
 SCHEDULER.every '60s', :first_in => 0 do |job|
 
-  alerts_response = Curl.get("https://api.opsgenie.com/v2/alerts?query=status:open") do |http|
+  if search_identifier_id
+    query = "searchIdentifier=#{search_identifier_id}"
+  else
+    query = "query=status:open"
+  end
+
+  alerts_response = Curl.get("#{api_url}/alerts/?#{query}") do |http|
 	  http.headers['Authorization'] = "GenieKey #{api_key}"
   end
 
   alerts = JSON.parse(alerts_response.body)['data']
-  
-  open_alerts   = alerts.count
+
+  open_alerts   = 0
   unseen_alerts = 0
   unack_alerts  = 0
   p1_alerts     = 0
   p2_alerts     = 0
   p3_alerts     = 0
-  
-  alerts.each do |a|
-    if a["isSeen"] == false
-      unseen_alerts +=1
-    end
+ 
+  if alerts
+    open_alerts = alerts.count
+    alerts.each do |a|
+      if a["isSeen"] == false
+        unseen_alerts +=1
+      end
 
-    if a["acknowledged"] == false
-      unack_alerts +=1
-    end
+      if a["acknowledged"] == false
+        unack_alerts +=1
+      end
 
-    # TODO: Make this mapping configurable
-    if a["priority"] == "P1"
-      p1_alerts +=1
+      # TODO: Make this mapping configurable
+      if a["priority"] == "P1"
+        p1_alerts +=1
+      end
+      if a["priority"] == "P2"
+        p2_alerts +=1
+      end
+      if a["priority"] == "P3"
+        p3_alerts +=1
+      end
     end
-    if a["priority"] == "P2"
-      p2_alerts +=1
     end
-    if a["priority"] == "P3"
-      p3_alerts +=1
-    end
-  end
 
   send_event('opsgenie_open', value: open_alerts)
   send_event('opsgenie_unseen', value: unseen_alerts)
