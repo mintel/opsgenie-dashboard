@@ -12,7 +12,7 @@ search_identifier_id = ENV['OPSGENIE_SEARCH_IDENTIFIER_ID']
 Helper function to call schedule API and get recipient information
 =end
 
-def send_schedule_event(api_key, schedule_id, event_id)
+def send_schedule_event(api_url, api_key, schedule_id, event_id)
   on_call_response = Curl.get("#{api_url}/schedules/#{schedule_id}/on-calls?flat=true") do |http|
     http.headers['Authorization'] = "GenieKey #{api_key}"
   end
@@ -39,7 +39,7 @@ in a List widget
 
 if schedule_identifier_on_call
   SCHEDULER.every '120s', :first_in => 0 do |job|
-    send_schedule_event(api_key, schedule_identifier_on_call, 'opsgenie_on_call') 
+    send_schedule_event(api_url, api_key, schedule_identifier_on_call, 'opsgenie_on_call')
   end
 else
   send_event('opsgenie_on_call', items: [{'value': 'N/A'}])
@@ -52,7 +52,7 @@ in a List widget
 
 if schedule_identifier_on_triage
   SCHEDULER.every '120s', :first_in => 0 do |job|
-    send_schedule_event(api_key, schedule_identifier_on_triage, 'opsgenie_on_triage') 
+    send_schedule_event(api_url, api_key, schedule_identifier_on_triage, 'opsgenie_on_triage')
   end
 else
   send_event('opsgenie_on_triage', items: [{'value': 'N/A'}])
