@@ -2,7 +2,7 @@
 
 A dashboard for [OpsGenie](https://opsgenie.com) using [Smashing](https://smashing.github.io/).
 
-This makes use of the OpsGenie API for probing alerts and schedules and provides live updates. 
+This makes use of the OpsGenie API for probing alerts and schedules and provides live updates.
 
 ## Usage
 
@@ -22,6 +22,16 @@ docker-compose up
 ```
 
 Browse to http://localhost:8080
+
+## Saved Searches
+
+You can specify a single search for the dashboard using `OPSGENIE_SEARCH_IDENTIFIER_ID`
+
+To list searches for your integration, use the following:
+
+```
+curl -H "Authorization: GenieKey <API-KEY>" https://api.opsgenie.com/v2/alerts/saved-searches/
+```
 
 ## Screen shots
 
