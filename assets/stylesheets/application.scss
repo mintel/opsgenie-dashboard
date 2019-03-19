@@ -149,6 +149,14 @@ h3 {
   height: inherit;
   display: table-cell;
   vertical-align: middle;
+
+  .title {
+    font-size: 4em;
+  }
+
+  .value{
+    font-size: 6em;
+  }
 }
 
 .widget.status-warning {
@@ -256,3 +264,8 @@ h3 {
 .clearfix:after { clear: both; }
 .clearfix { zoom: 1; }
 
+.opsgenie_on_triage, .opsgenie_on_call {
+  .value{
+    font-size: 4em;
+  }
+}
