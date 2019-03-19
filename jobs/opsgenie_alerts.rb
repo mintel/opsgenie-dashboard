@@ -89,8 +89,12 @@ SCHEDULER.every '60s', :first_in => 0 do |job|
   p3_alerts     = 0
  
   if alerts
-    open_alerts = alerts.count
     alerts.each do |a|
+
+      next if a["priority"] == "P5"
+
+      open_alerts +=1 
+
       if a["isSeen"] == false
         unseen_alerts +=1
       end
