@@ -24,7 +24,9 @@ def send_schedule_event(api_url, api_key, schedule_id, event_id)
   else
     on_call_items = []
     on_call_recipients.each do |person| 
-      item_entry = {'label': '', 'value': person}
+      # Remove the @mintel.com from the alias
+      person_name = person.split('@')[0]
+      item_entry = {'label': '', 'value': person_name}
       on_call_items.push(item_entry)
     end
     send_event("#{event_id}", items: on_call_items)
