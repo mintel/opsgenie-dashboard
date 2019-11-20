@@ -18,19 +18,19 @@ def send_schedule_event(api_url, api_key, schedule_id, event_id)
   end
 
   on_call_recipients = JSON.parse(on_call_response.body)['data']['onCallRecipients']
-  
-  if on_call_recipients.length == 0 
+
+  if on_call_recipients.length == 0
     send_event("#{event_id}", items: [{'value': 'N/A'}])
   else
     on_call_items = []
-    on_call_recipients.each do |person| 
+    on_call_recipients.each do |person|
       # Remove the @mintel.com from the alias
       person_name = person.split('@')[0]
       item_entry = {'label': '', 'value': person_name}
       on_call_items.push(item_entry)
     end
     send_event("#{event_id}", items: on_call_items)
-  end 
+  end
 end
 
 
@@ -62,7 +62,7 @@ end
 
 
 =begin
-Poll the alerts endpoint and display the following 
+Poll the alerts endpoint and display the following
   - Open alerts
   - Un-Ack alerts
   - Un-Seen alerts
@@ -89,13 +89,13 @@ SCHEDULER.every '60s', :first_in => 0 do |job|
   p1_alerts     = 0
   p2_alerts     = 0
   p3_alerts     = 0
- 
+
   if alerts
     alerts.each do |a|
 
       next if a["priority"] == "P5"
 
-      open_alerts +=1 
+      open_alerts +=1
 
       if a["isSeen"] == false
         unseen_alerts +=1
