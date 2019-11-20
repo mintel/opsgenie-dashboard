@@ -1,7 +1,7 @@
 require 'curb'
 require 'json'
 
-api_url = 'https://api.opsgenie.com/v2'
+api_url = ENV['OPSGENIE_APIURL']
 
 api_key = ENV['OPSGENIE_APIKEY']
 schedule_identifier_on_call = ENV['OPSGENIE_SCHEDULE_IDENTIFIER_ON_CALL']
