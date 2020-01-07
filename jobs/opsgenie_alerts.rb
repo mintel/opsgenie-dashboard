@@ -89,6 +89,8 @@ SCHEDULER.every '60s', :first_in => 0 do |job|
   p1_alerts     = 0
   p2_alerts     = 0
   p3_alerts     = 0
+  p4_alerts     = 0
+  p5_alerts     = 0
 
   if alerts
     alerts.each do |a|
@@ -115,6 +117,12 @@ SCHEDULER.every '60s', :first_in => 0 do |job|
       if a["priority"] == "P3"
         p3_alerts +=1
       end
+      if a["priority"] == "P4"
+        p4_alerts +=1
+      end
+      if a["priority"] == "P5"
+        p5_alerts +=1
+      end
     end
     end
 
@@ -124,4 +132,6 @@ SCHEDULER.every '60s', :first_in => 0 do |job|
   send_event('opsgenie_p1', value: p1_alerts)
   send_event('opsgenie_p2', value: p2_alerts)
   send_event('opsgenie_p3', value: p3_alerts)
+  send_event('opsgenie_p4', value: p4_alerts)
+  send_event('opsgenie_p5', value: p5_alerts)
 end
